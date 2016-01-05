@@ -26,9 +26,9 @@ int Return(int val);
 
     /* definitions go here. period is an example. */
 INT_VALUE        (([1-9][0-9]*)|0)
-FLOAT_VALUE      -?(([1-9][0-9]*)|0)(\.[0-9]+)?
+FLOAT_VALUE      -?{INT_VALUE}(\.[0-9]+)?
 RIDENTIFIER      [_a-zA-Z][a-zA-Z0-9]*
-RSPACE           [ \n\t\v]+
+RSPACE           [ \n\t\v\r]+
 %%
 
     // token definitions go here. "if" is an example.
