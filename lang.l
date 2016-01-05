@@ -29,10 +29,11 @@ INT_VALUE        (([1-9][0-9]*)|0)
 FLOAT_VALUE      -?{INT_VALUE}(\.[0-9]+)?
 RIDENTIFIER      [_a-zA-Z][a-zA-Z0-9]*
 RSPACE           [ \n\t\v\r]+
+RPUNCTUATION     [\(\)\{\}\[\];,\.\+\-\*\/%=]
 %%
 
     // token definitions go here. "if" is an example.
-[\(\)\{\}\[\];,\.\+\-\*\/%=]                      DO_RETURN(*yytext);
+{RPUNCTUATION}              DO_RETURN(*yytext);
 "if"                        DO_RETURN(IF);
 "endif"                     DO_RETURN(ENDIF);
 "else"                      DO_RETURN(ELSE);
