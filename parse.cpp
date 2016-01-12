@@ -14,6 +14,7 @@
 #include "lex.h"
 #include "parse.h"
 #include "utils.h"
+#include "tokens.h"
 
 //*******************************************
 // Find a PROG non-terminal
@@ -115,7 +116,7 @@ bool FindTERM()
         if (!FindTERM_P()) return false;
         return true;
     }
-    else if (NUM != token)
+    else if (INT_VAL != token)
     {
         Error("a number");
         return false;
@@ -155,7 +156,7 @@ bool FindTIMESOP()
     if ( ('*' == token) || ('/' == token) )
     {
         AdvanceToken();
-        return True;
+        return true;
     }
     Error("'*' or '/'");
     return false;
@@ -169,7 +170,7 @@ bool FindPLUSOP()
     if ( ('+' == token) || ('-' == token) )
     {
         AdvanceToken();
-        return True;
+        return true;
     }
     Error("'+' or '-'");
     return false;
