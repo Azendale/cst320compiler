@@ -122,8 +122,59 @@ bool FindTERM()
     }
     return true;
 }
+//*******************************************
+// Find a TERM_P non-terminal
+bool FindTERM_P()
+{
+    if (FindTIMESOP())
+    {
+        int token = PeekToken();
+        if ('[' != token )
+        {
+            Error("'['");
+            return false;
+        }
+        AdvanceToken(); // Advance past '['
+        if (!FindEXPR()) return false;
+        token = PeekToken();
+        if (']' != token)
+        {
+            Error("']'");
+            return false;
+        }
+        AdvanceToken(); // Advance past ']'
+        if (!FindEXPR_P()) return false;
+    }
+    return true; // Lamba production
+}
+//*******************************************
+// Find a TIMESOP non-terminal
+bool FindTIMESOP()
+{
+    int token = PeekToken();
+    if ( ('*' == token) || ('/' == token) )
+    {
+        AdvanceToken();
+        return True;
+    }
+    Error("'*' or '/'");
+    return false;
 
+}
+//*******************************************
+// Find a PLUSOP non-terminal
+bool FindPLUSOP()
+{
+    int token = PeekToken();
+    if ( ('+' == token) || ('-' == token) )
+    {
+        AdvanceToken();
+        return True;
+    }
+    Error("'+' or '-'");
+    return false;
 
+}
 /*******************************************
 bool FindExample()
 {
