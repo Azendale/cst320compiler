@@ -1,15 +1,17 @@
-##############################################
-# Makefile for CST320 labs
+#**************************************
+# Makefile for CST 320 labs
 #
-# Author: Philip Howard
+# Author: Phil Howard 
 # phil.howard@oit.edu
 #
-# Nov. 24, 2015
+# Date: Nov. 23, 2015
 #
 
 COPTS=-Wall -g -c  -O0
 OBJS=main.o \
 	 langlex.o \
+	 parse.o \
+	 utils.o \
 
 all: lang
 
@@ -33,6 +35,7 @@ langlex.c: lang.l
 
 langlex.o: langlex.c
 	g++ $(COPTS) -Wno-sign-compare $? -o $@
+
 lang: $(OBJS)
 	g++ $(OBJS) -o lang
 

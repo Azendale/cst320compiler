@@ -1,26 +1,20 @@
-//**************************************
-// main.cpp
-//
-// main routine for lang compiler.
+// Main routine for lang compiler.
 // This version only runs the lexer
 //
-// Author: Phil Howard 
+// Author: Phil Howard
 // phil.howard@oit.edu
 //
-// Date: Nov. 23, 2015
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include "lex.h"
+#include "parse.h"
 
 int main(int argc, char **argv)
 {
     const char *outfile_name;
     int result = 0;
-    int token;
 
     if (argc > 1)
     {
@@ -47,13 +41,15 @@ int main(int argc, char **argv)
     }
     std::cout.rdbuf(output.rdbuf());
 
-    token = yylex();
-    while (token != 0)
+    if (FindPROG())
     {
-        std::cout << token << ":" << yytext << "\n";
-        token = yylex();
+        std::cout << "Found a Program\n";
     }
 
+    if (yylex() != 0)
+    {
+        std::cout << "Junk at end of program\n";
+    }
     output.close();
     std::cout.rdbuf(cout_buf);
 
