@@ -123,6 +123,10 @@ bool FindTERM()
         Error("a number");
         return false;
     }
+    else
+    {
+        AdvanceToken(); // Advance past the number
+    }
     return true;
 }
 //*******************************************
