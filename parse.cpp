@@ -19,8 +19,14 @@
 // Find a PROG non-terminal
 bool FindPROG()
 {
-    Error("Program");
-    return false;
+    if (!FindSTMTS()) return false;
+    int token = PeekToken();
+    if (END != token)
+    {
+        Error("'end'");
+        return false;
+    }
+    return true;
 }
 /*******************************************
 bool FindExample()
