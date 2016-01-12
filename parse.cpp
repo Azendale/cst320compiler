@@ -8,7 +8,7 @@
 // phil.howard@oit.edu
 //
 // Date: Nov. 23, 2015
-//
+// Updated by Erik Andersen <erik.andersen@oit.edu> 2016-01-12
 
 #include <iostream>
 #include "lex.h"
@@ -27,6 +27,7 @@ bool FindPROG()
         Error("'end'");
         return false;
     }
+    AdvanceToken(); //Move past END token
     return true;
 }
 //*******************************************
@@ -49,6 +50,7 @@ bool FindSTMT()
         Error("';'");
         return false;
     }
+    AdvanceToken(); // Advance past ';'
     return true;
 }
 //*******************************************
@@ -58,14 +60,14 @@ bool FindEXPR()
     int token = PeekToken();
     if ('(' == token) 
     {
-        AdvanceToken();
+        AdvanceToken(); // Advance past '('
         if (!FindEXPR()) return false;
         if (')' != PeekToken() )
         {
             Error("')'");
             return false;
         }
-        AdvanceToken();
+        AdvanceToken(); // Advance past ')'
         if (!FindEXPR_P()) return false;
         return true;
     }
