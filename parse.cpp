@@ -78,7 +78,8 @@ bool FindEXPR()
 // Find a EXPR_P non-terminal
 bool FindEXPR_P()
 {
-    if (FindPLUSOP())
+    int token = PeekToken();
+    if (('+' == token || '-' == token) && FindPLUSOP())
     {
         int token = PeekToken();
         if ('(' != token )
@@ -133,7 +134,8 @@ bool FindTERM()
 // Find a TERM_P non-terminal
 bool FindTERM_P()
 {
-    if (FindTIMESOP())
+    int token = PeekToken();
+    if (('*' == token || '/' == token) && FindTIMESOP())
     {
         int token = PeekToken();
         if ('[' != token )
@@ -150,7 +152,7 @@ bool FindTERM_P()
             return false;
         }
         AdvanceToken(); // Advance past ']'
-        if (!FindEXPR_P()) return false;
+        if (!FindTERM_P()) return false;
     }
     return true; // Lamba production
 }

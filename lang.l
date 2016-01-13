@@ -11,9 +11,10 @@
 //
 
 #include "tokens.h"
+#include <iostream>
 
-#define DO_RETURN(a) return (a)
-//#define DO_RETURN(a) return Return(a)
+//#define DO_RETURN(a) return (a)
+#define DO_RETURN(a) return Return(a)
 int Return(int val);
 
 %}
@@ -27,7 +28,7 @@ int Return(int val);
     /* definitions go here. period is an example. */
 INT_VALUE        (([1-9][0-9]*)|0)
 RSPACE           [ \n\t\v\r]+
-RCHAR            [\[\];\+\-\*\/]
+RCHAR            [\[\];\+\-\*\/()]
 %%
 
     // token definitions go here. "if" is an example.
@@ -35,7 +36,6 @@ RCHAR            [\[\];\+\-\*\/]
 "end"                       DO_RETURN(END);
 {INT_VALUE}                 DO_RETURN(INT_VAL);
 {RSPACE}                    {}
-"//".*$                     {}
 .                           DO_RETURN(JUNK_TOKEN);
 
 %%
@@ -43,6 +43,6 @@ RCHAR            [\[\];\+\-\*\/]
 // This function allows us to do extra processing on each token
 int Return(int val)
 {
-    printf("Scanned '%s': %d on line %d\n", yytext, val, yylineno);
+    std::cout << "Scanned " << yytext << ": " << val << " on line "<<  yylineno << std::endl;
     return val;
 }
