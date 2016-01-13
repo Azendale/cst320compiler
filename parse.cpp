@@ -34,7 +34,7 @@ bool FindPROG()
 // Find a STMTS non-terminal
 bool FindSTMTS()
 {
-    while (FindSTMT())
+    while (END != PeekToken() && FindSTMT())
     {
     }
     return true;
