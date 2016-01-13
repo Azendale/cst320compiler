@@ -13,8 +13,8 @@
 #include "tokens.h"
 #include <iostream>
 
-//#define DO_RETURN(a) return (a)
-#define DO_RETURN(a) return Return(a)
+#define DO_RETURN(a) return (a)
+//#define DO_RETURN(a) return Return(a)
 int Return(int val);
 
 %}

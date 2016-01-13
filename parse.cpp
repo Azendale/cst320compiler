@@ -69,6 +69,10 @@ bool FindSTMT()
             SyncSTMT();
         }
     }
+    else
+    {
+        SyncSTMT();
+    }
     return true;
 }
 
