@@ -39,7 +39,7 @@ bool FindSTMTS()
     }
     return true;
 }
-void SyncSTMT()
+bool SyncSTMT()
 {
     int token = PeekToken();
     while (token != 0 && token != ';' && token != END) // Stop trying to wind forward when we find a ;, the end of the file, or the end Keyword (so program can get it)
@@ -50,6 +50,11 @@ void SyncSTMT()
     {
         AdvanceToken(); // If we didn't hit the end of the file, wind to the place after the semicolon
     }
+    else if (0 == token)
+    {
+        return false;
+    }
+    return true;
 }
 //*******************************************
 // Find a STMT non-terminal
@@ -66,12 +71,12 @@ bool FindSTMT()
         else
         {
             Error("';'");
-            SyncSTMT();
+            return SyncSTMT();
         }
     }
     else
     {
-        SyncSTMT();
+        return SyncSTMT();
     }
     return true;
 }
@@ -207,18 +212,3 @@ bool FindPLUSOP()
     return false;
 
 }
-/*******************************************
-bool FindExample()
-{
-    if (!FindPART1()) return false;
-    
-    int token = PeekToken();
-    if (token != '+') return false;
-    AdvanceToken();         // past '+'
-
-    if (!FindPART2()) return false;
-
-    return true;
-}
-*/
-
