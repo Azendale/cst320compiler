@@ -3,7 +3,7 @@
 //
 // Author: Phil Howard
 // phil.howard@oit.edu
-//
+// Edited by Erik Andersen, <erik.andersen@oit.edu> 2016-01-12
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>

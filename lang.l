@@ -8,7 +8,7 @@
 // phil.howard@oit.edu
 //
 // Date: Nov. 23, 2015
-//
+// Edited by Erik Andersen <erik.andersen@oit.edu> 2016-01-12
 
 #include "tokens.h"
 #include <iostream>
