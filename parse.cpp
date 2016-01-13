@@ -39,20 +39,39 @@ bool FindSTMTS()
     }
     return true;
 }
+void SyncSTMT()
+{
+    int token = PeekToken();
+    while (token != 0 && token != ';' && token != END) // Stop trying to wind forward when we find a ;, the end of the file, or the end Keyword (so program can get it)
+    {
+        token = AdvanceToken(); // Move forward. Loop checks to see if we now are at the end of file or found a ;
+    }
+    if (';' == token)
+    {
+        AdvanceToken(); // If we didn't hit the end of the file, wind to the place after the semicolon
+    }
+}
 //*******************************************
 // Find a STMT non-terminal
 bool FindSTMT()
 {
-    if (!FindEXPR()) return false;
-    int token = PeekToken();
-    if (';' != token)
+    if (FindEXPR())
     {
-        Error("';'");
-        return false;
+        int token = PeekToken();
+        if (';' == token)
+        {
+            AdvanceToken(); // Advance past ';'
+            std::cout << "Found a statement" << std::endl;
+        }
+        else
+        {
+            Error("';'");
+            SyncSTMT();
+        }
     }
-    AdvanceToken(); // Advance past ';'
     return true;
 }
+
 //*******************************************
 // Find a EXPR non-terminal
 bool FindEXPR()
