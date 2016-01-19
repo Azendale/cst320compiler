@@ -1,2 +1,9 @@
 Lab1 Feedback
 
+I pulled from your github repository.
+
+-2 It appears like you do NOT allow underscores in the middle of identifiers, but you DO allow them at the beginning.
+
+-2 You did not update the comment header in lang.l to include your name and the date.
+
+
