@@ -12,6 +12,9 @@
 // Modified by Erik Andersen <erik.andersen@oit.edu> 2016-01-19
 
 #include "tokens.h"
+#include "cSymbolTable.h"
+#include "cSymbol.h"
+extern cSymbolTable g_SymbolTable;
 
 #define DO_RETURN(a) return (a)
 //#define DO_RETURN(a) return Return(a)
@@ -36,11 +39,11 @@ RPUNCTUATION     [\(\)\{\}\[\];,\.\+\-\*\/%=]
     // control scope with curly braces
     // NOTE: This functionality will eventually move to the parser
 "{"                         {
-                                IncreaseScope();
+                                g_SymbolTable.IncreaseScope();
                                 return yytext[0];
                             }
 "}"                         {
-                                DecreaseScope();
+                                g_SymbolTable.DecreaseScope();
                                 return yytext[0];
                             }
 {RPUNCTUATION}              DO_RETURN(*yytext);
@@ -57,7 +60,7 @@ RPUNCTUATION     [\(\)\{\}\[\];,\.\+\-\*\/%=]
 {INT_VALUE}                 DO_RETURN(INT_VAL);
 {FLOAT_VALUE}               DO_RETURN(FLOAT_VAL);
 {RIDENTIFIER}               {
-                                yylval.symbol = Insert(yytext);
+                                yylval.symbol = g_SymbolTable.Insert(yytext);
                                 DO_RETURN(IDENTIFIER);
                             }
 "=="                        DO_RETURN(EQUALS);
