@@ -28,7 +28,9 @@ public:
             keyValuePair.first = toAdd;
             keyValuePair.second = new cSymbol(toAdd);
             symbolstack.front().insert(keyValuePair);
+            returnValue = (*(symbolstack.front().find(toAdd))).second;
         }
+        return returnValue;
     }
     cSymbol* InnerLookup(const std::string & toFind)
     {
@@ -36,25 +38,25 @@ public:
         std::unordered_map<std::string, cSymbol* >::iterator location = stacktop.find(toFind);
         if (location != stacktop.end())
         {
-            return *location;
+            return (*location).second;
         }
         return nullptr;
     }
     cSymbol* AllLookup(const std::string & toFind)
     {
-        std::list<std::unordered_map<std::string, cSymbol *>> stacktop = symbolstack.begin();
-        std::list<std::unordered_map<std::string, cSymbol *>> stackbottom = symbolstack.end();
-        std::unordered_map<std::string, cSymbol* >::iterator location = stacktop.find(toFind);
+        std::list<std::unordered_map<std::string, cSymbol *>>::iterator stacktop = symbolstack.begin();
+        std::list<std::unordered_map<std::string, cSymbol *>>::iterator stackbottom = symbolstack.end();
+        std::unordered_map<std::string, cSymbol* >::iterator location = (*stacktop).find(toFind);
         
-        for (; stacktop != stackbottom && location == stacktop.end(); stacktop++) // Until the bottom of the stack, or we find it
+        for (; stacktop != stackbottom && location == (*stacktop).end(); stacktop++) // Until the bottom of the stack, or we find it
         {
-            location = stacktop.find(toFind);
+            location = (*stacktop).find(toFind);
         }
         if (stacktop == stackbottom)
         {
             return nullptr; // Went to bottom of stack looking for it
         }
-        return *location;
+        return (*location).second;
     }
 protected:
     
