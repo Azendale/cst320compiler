@@ -12,9 +12,11 @@
 // Modified by Erik Andersen <erik.andersen@oit.edu> 2016-01-19
 
 #include "tokens.h"
+#include "lex.h"
 #include "cSymbolTable.h"
 #include "cSymbol.h"
 extern cSymbolTable g_SymbolTable;
+yylval_t yylval; // Not completely sure this should be here.
 
 #define DO_RETURN(a) return (a)
 //#define DO_RETURN(a) return Return(a)
