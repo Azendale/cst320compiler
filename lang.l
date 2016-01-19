@@ -33,7 +33,16 @@ RSPACE           [ \n\t\v\r]+
 RPUNCTUATION     [\(\)\{\}\[\];,\.\+\-\*\/%=]
 %%
 
-    // token definitions go here. "if" is an example.
+    // control scope with curly braces
+    // NOTE: This functionality will eventually move to the parser
+"{"                         {
+                                IncreaseScope();
+                                return yytext[0];
+                            }
+"}"                         {
+                                DecreaseScope();
+                                return yytext[0];
+                            }
 {RPUNCTUATION}              DO_RETURN(*yytext);
 "if"                        DO_RETURN(IF);
 "endif"                     DO_RETURN(ENDIF);
@@ -47,7 +56,10 @@ RPUNCTUATION     [\(\)\{\}\[\];,\.\+\-\*\/%=]
 "return"                    DO_RETURN(RETURN);
 {INT_VALUE}                 DO_RETURN(INT_VAL);
 {FLOAT_VALUE}               DO_RETURN(FLOAT_VAL);
-{RIDENTIFIER}               DO_RETURN(IDENTIFIER);
+{RIDENTIFIER}               {
+                                yylval.symbol = Insert(yytext);
+                                DO_RETURN(IDENTIFIER);
+                            }
 "=="                        DO_RETURN(EQUALS);
 "&&"                        DO_RETURN(AND);
 "||"                        DO_RETURN(OR);
