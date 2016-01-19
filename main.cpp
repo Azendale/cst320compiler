@@ -8,7 +8,7 @@
 // phil.howard@oit.edu
 //
 // Date: Nov. 23, 2015
-//
+// Modifications by Erik Andersen <erik.andersen@oit.edu> 2016-01-19
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     int result = 0;
     int token;
 
-    std::cout << "Philip Howard" << std::endl;
+    std::cout << "Erik Andersen" << std::endl;
 
     if (argc > 1)
     {
