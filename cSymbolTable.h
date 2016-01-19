@@ -30,8 +30,32 @@ public:
             symbolstack.front().insert(keyValuePair);
         }
     }
-    cSymbol* InnerLookup(const std::string & toFind);
-    cSymbol* AllLookup(const std::string & toFind);
+    cSymbol* InnerLookup(const std::string & toFind)
+    {
+        std::unordered_map<std::string, cSymbol *> & stacktop = symbolstack.front();
+        std::unordered_map<std::string, cSymbol* >::iterator location = stacktop.find(toFind);
+        if (location != stacktop.end())
+        {
+            return *location;
+        }
+        return nullptr;
+    }
+    cSymbol* AllLookup(const std::string & toFind)
+    {
+        std::list<std::unordered_map<std::string, cSymbol *>> stacktop = symbolstack.begin();
+        std::list<std::unordered_map<std::string, cSymbol *>> stackbottom = symbolstack.end();
+        std::unordered_map<std::string, cSymbol* >::iterator location = stacktop.find(toFind);
+        
+        for (; stacktop != stackbottom && location == stacktop.end(); stacktop++) // Until the bottom of the stack, or we find it
+        {
+            location = stacktop.find(toFind);
+        }
+        if (stacktop == stackbottom)
+        {
+            return nullptr; // Went to bottom of stack looking for it
+        }
+        return *location;
+    }
 protected:
     
 private:
