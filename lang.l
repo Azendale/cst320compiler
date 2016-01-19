@@ -9,6 +9,7 @@
 //
 // Date: Nov. 23, 2015
 //
+// Modified by Erik Andersen <erik.andersen@oit.edu> 2016-01-19
 
 #include "tokens.h"
 
@@ -27,7 +28,7 @@ int Return(int val);
     /* definitions go here. period is an example. */
 INT_VALUE        (([1-9][0-9]*)|0)
 FLOAT_VALUE      -?{INT_VALUE}(\.[0-9]+)?
-RIDENTIFIER      [_a-zA-Z][a-zA-Z0-9]*
+RIDENTIFIER      [_a-zA-Z][_a-zA-Z0-9]*
 RSPACE           [ \n\t\v\r]+
 RPUNCTUATION     [\(\)\{\}\[\];,\.\+\-\*\/%=]
 %%
