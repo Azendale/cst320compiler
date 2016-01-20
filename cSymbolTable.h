@@ -10,22 +10,22 @@ class cSymbolTable
 public:
     void IncreaseScope()
     {
-        std::cout << "\033[0;31mPush scope.\033[0m" << std::endl << "\033[0;34h";
+        std::cout << "\033[0;31mPush scope.\033[0m" << std::endl << "\033[0;32m";
         showtable();
         symbolstack.push_front(std::unordered_map<std::string, cSymbol *>());
-        std::cout << "\033[0;31h";
+        std::cout << "\033[0;34m";
         showtable();
         std::cout << "\033[0m" << std::endl;
     }
     void DecreaseScope()
     {
-        std::cout << "\033[0;31mPop scope.\033[0m" << std::endl << "\033[0;34h";
+        std::cout << "\033[0;31mPop scope.\033[0m" << std::endl << "\033[0;32m";
         showtable();
         if (!symbolstack.empty())
         {
             symbolstack.pop_front();
         }
-        std::cout << "\033[0;31h";
+        std::cout << "\033[0;34m";
         showtable();
         std::cout << "\033[0m" << std::endl;
     }
@@ -72,7 +72,7 @@ public:
     }
     void showtable()
     {
-        std::cout << "\033[0;32m[";
+        std::cout << "[";
         for (auto it = symbolstack.begin(); it != symbolstack.end(); ++it)
         {
             std::cout << "{";
@@ -82,7 +82,7 @@ public:
             }
             std::cout << "}," << std::endl;
         }
-        std::cout << "]\033[0m" << std::endl;
+        std::cout << "]" << std::endl;
     }
 protected:
     
