@@ -1,4 +1,7 @@
 #pragma once
+
+// Erik Andersen <erik.andersen@oit.edu>, 2016-01-19
+
 #include "cSymbol.h"
 #include <unordered_map>
 #include <list>
@@ -10,39 +13,39 @@ class cSymbolTable
 public:
     void IncreaseScope()
     {
-        std::cout << "\033[0;31mPush scope.\033[0m" << std::endl << "\033[0;32m";
-        showtable();
+        // Create new hash table and add it to the stack
         symbolstack.push_front(std::unordered_map<std::string, cSymbol *>());
-        std::cout << "\033[0;34m";
-        showtable();
-        std::cout << "\033[0m" << std::endl;
     }
     void DecreaseScope()
     {
-        std::cout << "\033[0;31mPop scope.\033[0m" << std::endl << "\033[0;32m";
-        showtable();
         if (!symbolstack.empty())
         {
+            // Remove one hash table from the top of the stack
             symbolstack.pop_front();
         }
-        std::cout << "\033[0;34m";
-        showtable();
-        std::cout << "\033[0m" << std::endl;
     }
     cSymbol* Insert(const std::string & toAdd)
     {
+        // Is there a matching symbol in this context?
         cSymbol * returnValue = InnerLookup(toAdd);
+        // No -- let's add it
         if (nullptr == returnValue)
         {
-            // symbolstack[toAdd] = new cSymbol(toAdd)
+            // create a pair for the key and value
             std::pair<std::string, cSymbol *> keyValuePair;
+            // Set key and value
             keyValuePair.first = toAdd;
             keyValuePair.second = new cSymbol(toAdd);
+            // Put the new symbol into the hash table on the top/front of the list/stack
             symbolstack.front().insert(keyValuePair);
+            // Should be able to combine this line into the one before, since the one before should return a pair with first thing being an interator to the item
             returnValue = (*(symbolstack.front().find(toAdd))).second;
         }
-        showtable();
-        return returnValue;
+        // Yes -- just return the current one
+        else
+        {
+            return returnValue;
+        }
     }
     cSymbol* InnerLookup(const std::string & toFind)
     {
@@ -56,19 +59,23 @@ public:
     }
     cSymbol* AllLookup(const std::string & toFind)
     {
-        std::list<std::unordered_map<std::string, cSymbol *>>::iterator stacktop = symbolstack.begin();
-        std::list<std::unordered_map<std::string, cSymbol *>>::iterator stackbottom = symbolstack.end();
-        std::unordered_map<std::string, cSymbol* >::iterator location = (*stacktop).find(toFind);
+        std::list<std::unordered_map<std::string, cSymbol *>>::iterator stacktop = symbolstack.begin(); // Tracks the current level of the stack we are looking at
+        std::list<std::unordered_map<std::string, cSymbol *>>::iterator stackbottom = symbolstack.end(); // Points to below the bottom of the stack. 
         
-        for (; stacktop != stackbottom && location == (*stacktop).end(); stacktop++) // Until the bottom of the stack, or we find it
+        std::unordered_map<std::string, cSymbol* >::iterator location = (*stacktop).find(toFind); // Priming search of the top level of the stack
+        for (; stacktop != stackbottom && location == (*stacktop).end(); ++stacktop) // Until the bottom of the stack, or we find it on the current level
         {
-            location = (*stacktop).find(toFind);
+            location = (*stacktop).find(toFind); // Search the current level for the item
         }
-        if (stacktop == stackbottom)
+        if (stacktop == stackbottom) // Iterator for current symbol context pointing at item below the bottom of the stack -- meaning we went through all levels of the stack without finding the item
         {
             return nullptr; // Went to bottom of stack looking for it
         }
-        return (*location).second;
+        else
+        {
+            // Our loop stopped because we found it.
+            return (*location).second; // "dereference" the iterator to get pair of key, value. Select the second item to get the cSymbol pointer value so we can return it.
+        }
     }
     void showtable()
     {
