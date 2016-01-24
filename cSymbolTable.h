@@ -79,6 +79,7 @@ public:
     }
     void showtable()
     {
+        //prints a list of hash tables, using's python's syntax to represent it
         std::cout << "[";
         for (auto it = symbolstack.begin(); it != symbolstack.end(); ++it)
         {
